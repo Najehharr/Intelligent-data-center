@@ -6,18 +6,23 @@
 
                 </div>
                 <div class="card-body">
-                    <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image">
-                    <h4>Se Connecter
-                    </h4>
+                    <<div class="d-flex justify-content-center">
+        <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image" width="250">
+    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <h4>Se Connecter</h4>
+                    </div>
+
                     <form wire:submit='store'>
                         @if (Session::has('status'))
-                            <div class="alert alert-success alert-dismissible text-white" role="alert">
-                                <span class="text-sm">{{ Session::get('status') }}</span>
-                                <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
-                                    aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
+                        <div class="alert alert-success alert-dismissible text-white" role="alert">
+                            <span class="text-sm">{{ Session::get('status') }}</span>
+                            <button type="button" class="btn-close text-lg py-3 opacity-10" data-bs-dismiss="alert"
+                                aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                         @endif
 
                         <!-- Champ Email -->
@@ -27,17 +32,17 @@
                             <input wire:model.live='email' type="email" class="form-control">
                         </div>
                         @error('email')
-                            <p class='text-danger inputerror'>{{ $message }} </p>
+                        <p class='text-danger inputerror'>{{ $message }} </p>
                         @enderror
 
                         <!-- Champ Password -->
                         <div
                             class="input-group input-group-outline mt-3 @if (strlen($password ?? '') > 0) is-filled @endif">
-                            <label class="form-label">Password</label>
+                            <label class="form-label">Mot de passse</label>
                             <input wire:model.live="password" type="password" class="form-control">
                         </div>
                         @error('password')
-                            <p class='text-danger inputerror'>{{ $message }} </p>
+                        <p class='text-danger inputerror'>{{ $message }} </p>
                         @enderror
 
                         <!-- Bouton Se Connecter -->
