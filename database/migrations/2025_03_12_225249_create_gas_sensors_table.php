@@ -9,21 +9,26 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up() {
-        Schema::create('gas_sensors', function (Blueprint $table) {
-            $table->id();
-            $table->float('value');  // Niveau du gaz
-            $table->timestamp('timestamp')->useCurrent();  // Date de la mesure
-            $table->timestamps();
+    public function up()
+    {
+        // Ensure the 'time' column is added only if it doesn't already exist
+        Schema::table('gas_sensors', function (Blueprint $table) {
+            if (!Schema::hasColumn('gas_sensors', 'time')) {
+                $table->time('time')->nullable(); // Add 'time' column if it doesn't exist
+            }
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('gas_sensors');
+        Schema::table('gas_sensors', function (Blueprint $table) {
+            // Check if the column exists before dropping it
+            if (Schema::hasColumn('gas_sensors', 'time')) {
+                $table->dropColumn('time');
+            }
+        });
     }
 };

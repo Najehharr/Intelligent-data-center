@@ -6,16 +6,14 @@
                         <div class="row">
                             <div
                                 class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-                                <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center"
-                                    style="background-image: url('{{ asset('assets') }}/img/illustrations/illustration-signup.jpg'); background-size: cover;">
-                                </div>
+                                <img src="{{ asset('assets/img/logos/hopital/Hopital.png') }}" alt="Hospital Image">
                             </div>
                             <div
                                 class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
                                 <div class="card card-plain">
                                     <div class="card-header">
                                         <h4 class="font-weight-bolder">Sign Up</h4>
-                                        <p class="mb-0">Enter your email and password to register</p>
+                                        <p class="mb-0">Enter your email and password to registe</p>
                                     </div>
                                     <div class="card-body">
                                         <form>

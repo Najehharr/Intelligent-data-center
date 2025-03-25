@@ -144,7 +144,7 @@
                         <i class="fas fa-times text-md text-white ms-3 cursor-pointer" data-bs-dismiss="toast"
                             aria-label="Close"></i>
                     </div>
-                    <hr class="horizontal light m-0">
+                    
                     <div class="toast-body text-white">
                         Hello, world! This is a notification message.
                     </div>
