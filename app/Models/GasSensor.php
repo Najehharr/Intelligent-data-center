@@ -9,5 +9,5 @@ class GasSensor extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['value', 'timestamp'];
+    protected $fillable = ['value', 'time'];
 }

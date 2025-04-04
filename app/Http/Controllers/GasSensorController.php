@@ -7,27 +7,39 @@ use App\Models\GasSensor;
 
 class GasSensorController extends Controller
 {
-    // 1️⃣ Récupérer la dernière valeur du capteur
-    public function getGazLevel() {
-        dd($request->all());
-        return GasSensor::latest()->first();
+    /// ✅ Store gas level
+    public function storeGasLevel(Request $request) {
+        $request->validate([
+            'value' => 'required|numeric',
+        ]);
+
+        $gasSensor = GasSensor::create([
+            'value' => $request->value,
+        ]);
+
+        // Check if value exceeds threshold
+        if ($this->checkThreshold($request->value)) {
+            $this->sendAlert($request->value);
+        }
+
+        return response()->json($gasSensor, 201);
     }
 
-    // 2️⃣ Enregistrer une nouvelle valeur envoyée par l'ESP32
-    public function getGazLevel() {
-        $latestGasLevel = GasSensor::latest()->first();
-        return response()->json($latestGasLevel);
+    // ✅ Retrieve the latest gas level
+    public function getLatestGasLevel() {
+        return response()->json(GasSensor::latest()->first());
     }
 
-    // 3️⃣ Vérifier si le niveau dépasse le seuil
+    // ✅ Check if gas level exceeds threshold
     private function checkThreshold($value) {
-        $threshold = 100; // Seuil critique
+        $threshold = 100; // Change based on your needs
         return $value > $threshold;
     }
 
-    // 4️⃣ Envoyer une alerte en cas de dépassement du seuil
+    // ✅ Send alert if threshold exceeded
     private function sendAlert($value) {
-        // Logique d'alerte (email, notification, webhook...)
-        \Log::warning("⚠️ Alerte : Niveau de gaz élevé détecté ($value) !");
+        Log::warning("⚠️ Alert: High gas level detected ($value)!");
+        // You can add email/SMS/notification logic here
     }
+
 }

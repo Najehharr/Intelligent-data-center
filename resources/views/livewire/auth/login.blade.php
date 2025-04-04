@@ -1,12 +1,18 @@
+
+
+
+
+
+
 <div class="container my-auto mt-5">
-    <div class="row signin-margin">
+ <div class="row signin-margin">
         <div class="col-lg-4 col-md-8 col-12 mx-auto">
             <div class="card z-index-0 fadeIn3 fadeInBottom">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
 
                 </div>
                 <div class="card-body">
-                    <<div class="d-flex justify-content-center">
+                    <div class="d-flex justify-content-center">
         <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image" width="250">
     </div>
 
@@ -26,8 +32,7 @@
                         @endif
 
                         <!-- Champ Email -->
-                        <div
-                            class="input-group input-group-outline mt-3 @if (strlen($email ?? '') > 0) is-filled @endif">
+                        <div class="input-group input-group-outline mt-3 @if (strlen($email ?? '') > 0) is-filled @endif" style="border-color: #004687 !important;">
                             <label class="form-label">Email</label>
                             <input wire:model.live='email' type="email" class="form-control">
                         </div>
@@ -38,7 +43,7 @@
                         <!-- Champ Password -->
                         <div
                             class="input-group input-group-outline mt-3 @if (strlen($password ?? '') > 0) is-filled @endif">
-                            <label class="form-label">Mot de passse</label>
+                            <label class="form-label">Mot de passe</label>
                             <input wire:model.live="password" type="password" class="form-control">
                         </div>
                         @error('password')

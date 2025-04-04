@@ -60,4 +60,4 @@ Route::get('rtl', RTL::class)->name('rtl');
 });
 
 Route::post('/store-gas-level', [GasSensorController::class, 'storeGazLevel']);
-Route::get('/get-latest-gas-level', [GasSensorController::class, 'getGazLevel']);
+Route::get('/get-latest-gas-level', [GasSensorController::class, 'getLatestGasLevel']);

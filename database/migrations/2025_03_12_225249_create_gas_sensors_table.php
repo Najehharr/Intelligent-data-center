@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('gas_sensors', function (Blueprint $table) {
             $table->id();
             $table->float('value');  // Niveau du gaz
-            $table->timestamp('timestamp')->useCurrent();  // Date de la mesure
+            $table->timestamp('time')->useCurrent();  // Date de la mesure
             $table->timestamps();
         });
     }
