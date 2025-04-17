@@ -16,7 +16,7 @@ style="background: linear-gradient(180deg, #004687, #004687) ;"
 
 
             <li class="nav-item">
-                <a class="nav-link text-white {{ Route::currentRouteName() == 'user-management' ? ' active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ Route::currentRouteName() == 'user-management' ?  : '' }} "
                     href="{{ route('user-management') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i style="font-size: 1rem;" class="fas fa-lg fa-list-ul ps-2 pe-2 text-center"></i>
@@ -39,7 +39,7 @@ style="background: linear-gradient(180deg, #004687, #004687) ;"
            <br>
 
             <li class="nav-item">
-                <a class="nav-link text-white {{ Route::currentRouteName() == 'tables' ? ' active bg-gradient-primary' : '' }} "
+                <a class="nav-link text-white {{ Route::currentRouteName() == 'tables' ?  : '' }} "
                     href="{{ route('tables') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">table_view</i>
@@ -47,9 +47,9 @@ style="background: linear-gradient(180deg, #004687, #004687) ;"
                     <span class="nav-link-text ms-1">Gestion d'accées </span>
                 </a>
             </li>
-            <br>
+
             <li class="nav-item">
-                <a class="nav-link text-white {{ Route::currentRouteName() == 'notifications' ? ' active bg-gradient-primary' : '' }}  "
+                <a class="nav-link text-white {{ Route::currentRouteName() == 'notifications' ?  : '' }}  "
                     href="{{ route('notifications') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <i class="material-icons opacity-10">notifications</i>

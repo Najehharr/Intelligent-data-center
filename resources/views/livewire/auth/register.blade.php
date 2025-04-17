@@ -7,8 +7,7 @@
                         <div class="row">
                             <div
                                 class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 start-0 text-center justify-content-center flex-column">
-                                <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image" width="250">
-                            </div>
+                                <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image" width="350" style="margin-left: 120px">               </div>
                             <div
                                 class="col-xl-4 col-lg-5 col-md-7 d-flex flex-column ms-auto me-auto ms-lg-auto me-lg-5">
                                 <div class="card card-plain">
@@ -19,27 +18,27 @@
                                     <div class="card-body">
                                         <form wire:submit ="store">
 
-                                            <div class="input-group input-group-outline @if(strlen($name?? '') > 0) is-filled @endif">
-                                                <label class="form-label">Nom</label>
-                                                <input wire:model.live="name" type="text" class="form-control"
+                                            <div class="input-group mt-3"style="border: 1px solid #004687; border-radius: 4px;" @if(strlen($name?? '') > 0) is-filled @endif">
+
+                                                <input wire:model.lazy="name" type="text" class="form-control"placeholder="Nom"
                                                 >
                                             </div>
                                             @error('name')
                                             <p class='text-danger inputerror'>{{ $message }} </p>
                                             @enderror
 
-                                            <div class="input-group input-group-outline mt-3 @if(strlen($email ?? '') > 0) is-filled @endif">
-                                                <label class="form-label">Email</label>
-                                                <input wire:model.live="email" type="email"  class="form-control"
+                                            <div class="input-group mt-3"style="border: 1px solid #004687; border-radius: 4px;" @if(strlen($email ?? '') > 0) is-filled @endif">
+
+                                                <input wire:model.lazy="email" autocomplete="off"  type="email"  class="form-control"placeholder="E-mail"
                                                      >
                                             </div>
                                             @error('email')
                                             <p class='text-danger inputerror'>{{ $message }} </p>
                                             @enderror
 
-                                            <div class="input-group input-group-outline mt-3 @if(strlen($password ?? '') > 0) is-filled @endif">
-                                                <label class="form-label">Mot de passe</label>
-                                                <input wire:model.live="password" type="password" class="form-control" >
+                                            <div class="input-group mt-3"style="border: 1px solid #004687; border-radius: 4px;" @if(strlen($password ?? '') > 0) is-filled @endif">
+
+                                                <input wire:model.lazy="password"  autocomplete="new-password" type="password" class="form-control"placeholder="Mot de passe" >
                                             </div>
                                             @error('password')
                                             <p class='text-danger inputerror'>{{ $message }} </p>
@@ -48,7 +47,7 @@
                                             <div class="text-center">
                                                 <button type="submit"
                                                     style="background: #004687; color: white; border: none; width: 100%; padding: 10px; border-radius: 5px; margin-top: 20px; cursor: pointer;">
-                                                    Se Connecter
+                                                    S'inscrire
                                                 </button>
                                             </div>
                                         </form>

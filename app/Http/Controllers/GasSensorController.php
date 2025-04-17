@@ -26,9 +26,11 @@ class GasSensorController extends Controller
     }
 
     // ✅ Retrieve the latest gas level
-    public function getLatestGasLevel() {
-        return response()->json(GasSensor::latest()->first());
-    }
+    public function latest()
+{
+    $gas = GasSensor::latest()->first(); // or Co2Level model
+    return response()->json($gas);
+}
 
     // ✅ Check if gas level exceeds threshold
     private function checkThreshold($value) {

@@ -1,129 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sensor Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            direction: ltr; /* Ensuring left-to-right display */
-            text-align: left;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <title>Sensor Dashboard</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+  <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 </head>
 <body>
-
-    <div class="container-fluid py-4">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- Main Content -->
-                <div class="col-md-10 col-lg-10">
-                    <div class="card mt-4">
-                        <div class="card-body">
-                            <h6 class="mb-0">Gas Sensor Readings</h6>
-                            <p class="text-sm">Latest Air Quality Data</p>
-                            <hr class="dark horizontal">
-                            <div id="gas-sensor-chart" style="width: 100%; height: 500px;"></div>
-                            <div class="d-flex">
-                                <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                <p class="mb-0 text-sm">Last measurement taken 2 minutes ago</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-10 col-lg-10">
-                    <div class="card mt-4">
-                        <div class="card-body">
-                            <h6 class="mb-0">Humidity Levels</h6>
-                            <p class="text-sm">Latest Humidity Data</p>
-                            <hr class="dark horizontal">
-                            <div id="humidity-chart" style="width: 100%; height: 350px;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-10 col-lg-10">
-                    <div class="card mt-4">
-                        <div class="card-body">
-                            <h6 class="mb-0">Température Moyenne Haute et Basse</h6>
-                            <p class="text-sm">Données de Température</p>
-                            <hr class="dark horizontal">
-                            <div id="temperature-chart" style="width: 100%; height: 350px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+  <div class="container-fluid py-4">
+    <div class="row">
+      <!-- CO2 Chart -->
+      <div class="col-md-10 col-lg-10">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h6 class="mb-0">Gas Sensor Readings</h6>
+            <div id="gas-sensor-chart" style="width: 100%; height: 350px;"></div>
+          </div>
         </div>
+      </div>
+
+      <!-- Humidity Chart -->
+      <div class="col-md-10 col-lg-10">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h6 class="mb-0">Humidity Levels</h6>
+            <div id="humidity-chart" style="width: 100%; height: 350px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Temperature Chart -->
+      <div class="col-md-10 col-lg-10">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h6 class="mb-0">Température Moyenne Haute et Basse</h6>
+            <div id="temperature-chart" style="width: 100%; height: 350px;"></div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
 
-    @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-    // Temperature Chart
-    var tempOptions = {
-        chart: { height: 350, type: "line", toolbar: { show: false } },
-        colors: ["#77B6EA", "#545454"],
-        dataLabels: { enabled: true },
-        stroke: { curve: "smooth" },
-        title: { text: "Température Moyenne Haute et Basse", align: "left" },
-        grid: { borderColor: "#e7e7e7" },
-        xaxis: { categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"], title: { text: "Mois" } },
-        yaxis: { title: { text: "Température" }, min: 5, max: 40 },
-        series: [
-            { name: "Haut - 2013", data: [28, 29, 33, 36, 32, 32, 33] },
-            { name: "Faible - 2013", data: [12, 11, 14, 18, 17, 13, 13] }
-        ]
-    };
-    new ApexCharts(document.querySelector("#temperature-chart"), tempOptions).render();
+  <script>
+    const client = mqtt.connect('wss://test.mosquitto.org:8081/mqtt');
 
-    // Humidity Chart
-    var humidityChartOptions = {
-        chart: { type: "area", height: 350 },
-        colors: ["#00E396"],
-        dataLabels: { enabled: false },
-        stroke: { curve: "smooth" },
-        xaxis: { type: "datetime" },
-        series: [{ name: "Humidity", data: [] }] // Initially empty
-    };
+    const chartOptions = (title) => ({
+      chart: { type: 'line', height: 350 },
+      series: [{ name: title, data: [] }],
+      xaxis: { type: 'datetime' }
+    });
 
-    var humidityChart = new ApexCharts(document.querySelector("#humidity-chart"), humidityChartOptions);
+    const maxPoints = 20;
+
+    const temperatureChart = new ApexCharts(document.querySelector("#temperature-chart"), chartOptions("Temperature"));
+    const humidityChart = new ApexCharts(document.querySelector("#humidity-chart"), chartOptions("Humidity"));
+    const co2Chart = new ApexCharts(document.querySelector("#gas-sensor-chart"), chartOptions("CO2 Level"));
+
+    temperatureChart.render();
     humidityChart.render();
+    co2Chart.render();
 
-    // Fetch Humidity Data from ESP32
-    function fetchHumidityData() {
-        fetch('/api/get-latest-humidity')
-            .then(response => response.json())
-            .then(data => {
-                if (!data || !data.humidity) return; // Ensure data is valid
+    const charts = {
+      "esp32/temperature": temperatureChart,
+      "esp32/humidity": humidityChart,
+      "esp32/co2_level": co2Chart
+    };
 
-                const timestamp = new Date().getTime();
-                const humidityValue = data.humidity;
+    client.on('connect', () => {
+      console.log("✅ Connected to MQTT broker");
+      Object.keys(charts).forEach(topic => client.subscribe(topic));
+    });
 
-                // Append new data point
-                let updatedData = humidityChart.w.globals.series[0].data;
-                updatedData.push([timestamp, humidityValue]);
+    client.on('message', (topic, message) => {
+  const value = parseFloat(message.toString());
+  const timestamp = new Date().getTime();
 
-                // Keep last 20 entries for smooth display
-                if (updatedData.length > 20) {
-                    updatedData.shift();
-                }
-
-                // Update the chart
-                humidityChart.updateSeries([{ name: "Humidity", data: updatedData }]);
-            })
-            .catch(error => console.error('Error fetching humidity data:', error));
-    }
-
-    // Fetch new humidity data every 5 seconds
-    setInterval(fetchHumidityData, 5000);
+  const chart = charts[topic];
+  if (chart && chart.w && chart.w.globals && chart.w.globals.series[0]) {
+    let data = chart.w.globals.series[0].data || [];
+    data.push([timestamp, value]);
+    if (data.length > maxPoints) data.shift();
+    chart.updateSeries([{ data }]);
+  } else {
+    console.warn("Chart or data series not ready for topic:", topic);
+  }
 });
 
-    </script>
-    @endpush
-
+  </script>
 </body>
 </html>

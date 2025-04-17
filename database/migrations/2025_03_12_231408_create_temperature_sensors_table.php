@@ -10,8 +10,9 @@ return new class extends Migration {
         Schema::create('temperature_sensors', function (Blueprint $table) {
             $table->id();
             $table->float('value');
-            $table->timestamps();
+            $table->timestamp('time')->default(DB::raw('CURRENT_TIMESTAMP'));
         });
+
     }
 
     public function down(): void

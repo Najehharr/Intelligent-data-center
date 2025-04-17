@@ -20,17 +20,11 @@ use GuzzleHttp\Middleware;
 use App\Http\Controllers\TemperatureSensorController;
 use App\Http\Controllers\HumiditeSensorController;
 use App\Http\Controllers\GasSensorController;
+use App\Http\Controllers\RfidSensorController;
+use App\Http\Controllers\Co2StatusSensorController;
+use App\Http\Controllers\Co2SensorController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+
 
 Route::get('/', function(){
     return redirect('sign-in');
@@ -44,8 +38,10 @@ Route::get('reset-password/{id}', ResetPassword::class)->middleware('signed')->n
 Route::get('sign-up', Register::class)->middleware('guest')->name('register');
 Route::get('sign-in', Login::class)->middleware('guest')->name('login');
 
+
 Route::get('user-profile', UserProfile::class)->middleware('auth')->name('user-profile');
 Route::get('user-management', UserManagement::class)->middleware('auth')->name('user-management');
+
 
 Route::group(['middleware' => 'auth'], function () {
 Route::get('dashboard', Dashboard::class)->name('dashboard');
@@ -59,5 +55,27 @@ Route::get('static-sign-up', StaticSignUp::class)->name('static-sign-up');
 Route::get('rtl', RTL::class)->name('rtl');
 });
 
-Route::post('/store-gas-level', [GasSensorController::class, 'storeGazLevel']);
-Route::get('/get-latest-gas-level', [GasSensorController::class, 'getLatestGasLevel']);
+
+Route::get('/temperature/latest', [TemperatureSensorController::class, 'latest']);
+Route::get('/temperature/chart', [TemperatureSensorController::class, 'chartData']);
+Route::post('/temperature/store', [TemperatureSensorController::class, 'store']);
+
+Route::get('/humidity/latest', [HumiditySensorController::class, 'latest']);
+Route::get('/humidity/chart', [HumiditySensorController::class, 'chartData']);
+Route::post('/humidity/store', [HumiditySensorController::class, 'store']);
+
+Route::get('/co2/latest', [Co2SensorController::class, 'latest']);
+Route::get('/co2/chart', [Co2SensorController::class, 'chartData']);
+Route::post('/co2/store', [Co2SensorController::class, 'store']);
+
+Route::get('/co2-status/latest', [Co2StatusSensorController::class, 'latest']);
+Route::get('/co2-status/chart', [Co2StatusSensorController::class, 'chartData']);
+Route::post('/co2-status/store', [Co2StatusSensorController::class, 'store']);
+
+Route::get('/rfid/latest', [RfidSensorController::class, 'latest']);
+Route::get('/rfid/chart', [RfidSensorController::class, 'chartData']);
+Route::post('/rfid/store', [RfidSensorController::class, 'store']);
+
+
+
+Route::get('dashboard', Dashboard::class)->name('dashboard');
