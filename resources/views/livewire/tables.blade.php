@@ -6,8 +6,8 @@
             <div class="col-12">
                 <div class="card my-4">
                     <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                        <div class=" shadow-primary border-radius-lg pt-4 pb-3">
-                            <h6 class="text-black text-capitalize ps-3">Gestion d'accées avec carte RFID</h6>
+                        <div class="shadow-primary border-radius-lg pt-4 pb-3">
+                            <h6 class="text-black text-capitalize ps-3">Gestion d'accès avec carte RFID</h6>
                         </div>
                     </div>
                     <div class="card-body px-0 pb-2">
@@ -15,136 +15,52 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                           Techniciens</th>
-                                        <th
-                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Numéro de carte</th>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                             Date d'entrée</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                            Status</th>
-                                        <th
-                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                           Date de sortie</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Access</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Traité</th>
                                         <th class="text-secondary opacity-7"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($data as $entry)
                                     <tr>
                                         <td>
                                             <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('assets') }}/img/team-2.jpg"
-                                                        class="avatar avatar-sm me-3 border-radius-lg"
-                                                        alt="user1">
-                                                </div>
+
                                                 <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">admin1</h6>
-                                                    <p class="text-xs text-secondary mb-0">john@creative-tim.com
-                                                    </p>
+                                                    <h6 class="mb-0 text-sm">{{ $entry->Numcart }}</h6>
+                                                    <p class="text-xs text-secondary mb-0"></p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <p class="text-xs font-weight-bold mb-0">Manager</p>
-                                            <p class="text-xs text-secondary mb-0">Organization</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $entry->date }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">Online</span>
+                                            <span class="badge badge-sm {{ $entry->access == 'ACCEPTED' ? 'bg-gradient-success' : 'bg-gradient-danger' }}">
+                                                {{ $entry->access == 'ACCEPTED' ? 'Accepté' : 'Refusé' }}
+                                            </span>
+
                                         </td>
                                         <td class="align-middle text-center">
-                                            <span
-                                                class="text-secondary text-xs font-weight-bold">23/04/18</span>
+                                            <span class="text-secondary text-xs font-weight-bold">
+                                                {{ $entry->traite == '1' ? 'Oui' : 'Non' }}
+                                            </span>
                                         </td>
-
                                     </tr>
+                                    @endforeach
+                                    @if($data->isEmpty())
                                     <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('assets') }}/img/team-3.jpg"
-                                                        class="avatar avatar-sm me-3 border-radius-lg"
-                                                        alt="user2">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Admin2</h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        alexa@creative-tim.com</p>
-                                                </div>
-                                            </div>
+                                        <td colspan="4" class="text-center text-muted py-4">
+                                            Aucune donnée RFID trouvée.
                                         </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                            <p class="text-xs text-secondary mb-0">Developer</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-secondary">Offline</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span
-                                                class="text-secondary text-xs font-weight-bold">11/01/19</span>
-                                        </td>
-
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('assets') }}/img/team-4.jpg"
-                                                        class="avatar avatar-sm me-3 border-radius-lg"
-                                                        alt="user3">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Admin3</h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        laurent@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Executive</p>
-                                            <p class="text-xs text-secondary mb-0">Projects</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">Online</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span
-                                                class="text-secondary text-xs font-weight-bold">19/09/17</span>
-                                        </td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <div class="d-flex px-2 py-1">
-                                                <div>
-                                                    <img src="{{ asset('assets') }}/img/team-3.jpg"
-                                                        class="avatar avatar-sm me-3 border-radius-lg"
-                                                        alt="user4">
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="mb-0 text-sm">Admin 4</h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        michael@creative-tim.com</p>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <p class="text-xs font-weight-bold mb-0">Programator</p>
-                                            <p class="text-xs text-secondary mb-0">Developer</p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <span class="badge badge-sm bg-gradient-success">Online</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span
-                                                class="text-secondary text-xs font-weight-bold">24/12/08</span>
-                                        </td>
-
-                                    </tr>
-
-
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -152,7 +68,5 @@
                 </div>
             </div>
         </div>
-
-
     </div>
 </div>

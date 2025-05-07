@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HumiditeSensor extends Model
+class SensorData extends Model
 {
     use HasFactory;
-    protected $fillable = ['value', 'time'];
+    protected $fillable = ['sensor_name', 'value'];
+
 }

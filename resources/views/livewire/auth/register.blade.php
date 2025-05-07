@@ -35,6 +35,14 @@
                                             @error('email')
                                             <p class='text-danger inputerror'>{{ $message }} </p>
                                             @enderror
+                                            <div class="input-group mt-3"style="border: 1px solid #004687; border-radius: 4px;" @if(strlen($role ?? '') > 0) is-filled @endif">
+
+                                                <input wire:model.lazy="role" autocomplete="off"  type="text"  class="form-control"placeholder="Role"
+                                                     >
+                                            </div>
+                                            @error('role')
+                                            <p class='text-danger inputerror'>{{ $message }} </p>
+                                            @enderror
 
                                             <div class="input-group mt-3"style="border: 1px solid #004687; border-radius: 4px;" @if(strlen($password ?? '') > 0) is-filled @endif">
 

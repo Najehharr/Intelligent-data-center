@@ -22,8 +22,8 @@ use App\Http\Controllers\HumiditeSensorController;
 use App\Http\Controllers\GasSensorController;
 use App\Http\Controllers\RfidSensorController;
 use App\Http\Controllers\Co2StatusSensorController;
-use App\Http\Controllers\Co2SensorController;
 
+use App\Http\Controllers\SensorDataController;
 
 
 Route::get('/', function(){
@@ -57,20 +57,22 @@ Route::get('rtl', RTL::class)->name('rtl');
 
 
 Route::get('/temperature/latest', [TemperatureSensorController::class, 'latest']);
-Route::get('/temperature/chart', [TemperatureSensorController::class, 'chartData']);
-Route::post('/temperature/store', [TemperatureSensorController::class, 'store']);
+Route::post('/store/temperature', [TemperatureSensorController::class, 'store']);
+
+Route::get('/chart-data/temperature', [SensorDataController::class, 'temperature']);
+Route::get('/chart-data/humidity', [SensorDataController::class, 'humidity']);
+Route::get('/chart-data/gas', [SensorDataController::class, 'gas']);
+
+
 
 Route::get('/humidity/latest', [HumiditySensorController::class, 'latest']);
-Route::get('/humidity/chart', [HumiditySensorController::class, 'chartData']);
-Route::post('/humidity/store', [HumiditySensorController::class, 'store']);
+Route::post('/store/humidity', [HumiditySensorController::class, 'store']);
 
-Route::get('/co2/latest', [Co2SensorController::class, 'latest']);
-Route::get('/co2/chart', [Co2SensorController::class, 'chartData']);
-Route::post('/co2/store', [Co2SensorController::class, 'store']);
+
 
 Route::get('/co2-status/latest', [Co2StatusSensorController::class, 'latest']);
-Route::get('/co2-status/chart', [Co2StatusSensorController::class, 'chartData']);
-Route::post('/co2-status/store', [Co2StatusSensorController::class, 'store']);
+
+Route::post('/store/co2', [Co2StatusSensorController::class, 'store']);
 
 Route::get('/rfid/latest', [RfidSensorController::class, 'latest']);
 Route::get('/rfid/chart', [RfidSensorController::class, 'chartData']);
@@ -79,3 +81,23 @@ Route::post('/rfid/store', [RfidSensorController::class, 'store']);
 
 
 Route::get('dashboard', Dashboard::class)->name('dashboard');
+
+Route::post('/sensor-data', [SensorDataController::class, 'store']);
+
+// Routes for Admin only
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
+    Route::get('/admin/manage-users', [AdminController::class, 'manageUsers']);
+});
+
+// Routes for Normal users
+Route::middleware(['auth', 'role:user'])->group(function () {
+    Route::get('/user/dashboard', [UserController::class, 'dashboard']);
+});
+
+// Routes everyone authenticated can access
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index']);
+});
+
+

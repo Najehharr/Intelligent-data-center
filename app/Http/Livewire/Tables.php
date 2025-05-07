@@ -3,11 +3,14 @@
 namespace App\Http\Livewire;
 
 use Livewire\Component;
+use App\Models\AcessRoom;
 
 class Tables extends Component
 {
     public function render()
     {
-        return view('livewire.tables');
+        $data = AcessRoom::orderBy('date', 'desc')->get();
+        return view('livewire.tables', compact('data'));
     }
 }
+

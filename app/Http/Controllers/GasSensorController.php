@@ -2,46 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\GasSensor;
+use Illuminate\Http\Request;
 
 class GasSensorController extends Controller
 {
-    /// ✅ Store gas level
-    public function storeGasLevel(Request $request) {
-        $request->validate([
-            'value' => 'required|numeric',
-        ]);
-
-        $gasSensor = GasSensor::create([
+    public function store(Request $request)
+    {
+        GasSensor::create([
             'value' => $request->value,
+            'time' => now(),
         ]);
-
-        // Check if value exceeds threshold
-        if ($this->checkThreshold($request->value)) {
-            $this->sendAlert($request->value);
-        }
-
-        return response()->json($gasSensor, 201);
+        return response()->json(['message' => 'Gas value stored']);
     }
 
-    // ✅ Retrieve the latest gas level
     public function latest()
+    {
+        return GasSensor::latest('time')->first();
+    }
+
+    public function chartData()
 {
-    $gas = GasSensor::latest()->first(); // or Co2Level model
-    return response()->json($gas);
+    return Status::orderBy('datetimes')
+        ->selectRaw('datetimes as time, niveauco2 as value')
+        ->get()
+        ->map(function ($row) {
+            return [strtotime($row->time) * 1000, (float) $row->value];
+        });
 }
-
-    // ✅ Check if gas level exceeds threshold
-    private function checkThreshold($value) {
-        $threshold = 100; // Change based on your needs
-        return $value > $threshold;
-    }
-
-    // ✅ Send alert if threshold exceeded
-    private function sendAlert($value) {
-        Log::warning("⚠️ Alert: High gas level detected ($value)!");
-        // You can add email/SMS/notification logic here
-    }
-
 }

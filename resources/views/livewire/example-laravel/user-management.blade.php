@@ -6,13 +6,12 @@
                 <div class="col-12">
                     <div class="card my-4">
                         <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                            <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
-                                <h6 class="text-white mx-3"><strong> Add, Edit, Delete features are not
-                                        functional!</strong> This is a<strong> PRO</strong> feature! Click
+                            <div class=" shadow-primary border-radius-lg pt-4 pb-3">
+                                <h6 class="text-black mx-3"><strong>
+                                        </strong> <strong> </strong>
                                     <strong><a
                                             href="https://www.creative-tim.com/product/material-dashboard-pro-laravel-livewire"
-                                            target="_blank" class="text-white"><u>here</u> </a></strong>to see
-                                    the PRO product!</h6>
+                                            target="_blank" class="text-white"><u>here</u> </a></strong></h6>
                             </div>
                         </div>
                         <div class=" me-3 my-3 text-end">
@@ -31,19 +30,19 @@
                                             </th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                PHOTO</th>
+                                                NUMERO CARTE</th>
                                             <th
                                                 class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
                                                 NAME</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                EMAIL</th>
+                                                ACCES                                                                                                                                                                   </th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
                                                 ROLE</th>
                                             <th
                                                 class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                                CREATION DATE
+                                                DATE
                                             </th>
                                             <th class="text-secondary opacity-7"></th>
                                         </tr>
@@ -89,7 +88,7 @@
                                                     <i class="material-icons">edit</i>
                                                     <div class="ripple-container"></div>
                                                 </a>
-                                                
+
                                                 <button type="button" class="btn btn-danger btn-link"
                                                 data-original-title="" title="">
                                                 <i class="material-icons">close</i>
