@@ -5,14 +5,28 @@
     <meta charset="UTF-8">
     <title>Sensor Dashboard</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/soft-ui-dashboard.css" rel="stylesheet" />
+
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
+
+
+
+
+
+    
     <div class="container-fluid py-4">
         <div class="row">
             <!-- CO2 Chart -->
-            <div class="col-md-10 col-lg-10">
+            <div class="col-md-4">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h6 class="mb-0">Lectures du capteur de Gaz</h6>
@@ -22,7 +36,7 @@
             </div>
 
             <!-- Humidity Chart -->
-            <div class="col-md-10 col-lg-10">
+            <div class="col-md-4">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h6 class="mb-0">Lectures du capteur d'Humidité</h6>
@@ -32,7 +46,7 @@
             </div>
 
             <!-- Temperature Chart -->
-            <div class="col-md-10 col-lg-10">
+            <div class="col-md-4">
                 <div class="card mt-4">
                     <div class="card-body">
                         <h6 class="mb-0">Lectures du capteur de Température</h6>
@@ -41,6 +55,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 
     <script>

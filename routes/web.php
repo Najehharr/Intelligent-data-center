@@ -56,6 +56,12 @@ Route::get('rtl', RTL::class)->name('rtl');
 });
 
 
+Route::view('/gaz', 'livewire.gaz')->name('gaz');
+Route::view('/temperature', 'livewire.temperature')->name('temperature');
+Route::view('/humidite', 'livewire.humidite')->name('humidite');
+
+
+
 Route::get('/temperature/latest', [TemperatureSensorController::class, 'latest']);
 Route::post('/store/temperature', [TemperatureSensorController::class, 'store']);
 
