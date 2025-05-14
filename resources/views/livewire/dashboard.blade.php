@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Sensor Dashboard</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
     <!-- Material Icons -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -18,45 +18,140 @@
 
 <body>
 
-
-
-
-
-    
     <div class="container-fluid py-4">
         <div class="row">
-            <!-- CO2 Chart -->
+
+            <!-- Temperature Card -->
             <div class="col-md-4">
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h6 class="mb-0">Lectures du capteur de Gaz</h6>
-                        <div id="gas-sensor-chart" style="width: 100%; height: 350px;"></div>
+                <section class="vh-100">
+                    <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+                        <div class="card-body p-4 text-center">
+                            <div class="d-flex justify-content-around mt-3">
+                                <p class="h3 mb-3">🌡️ Temperature</p>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center py-5 my-4">
+                                <p class="fw-bold mb-0" style="font-size: 7rem;">-4°C</p>
+                                <div class="text-start">
+                                    <p class="small">10:00</p>
+                                    <p class="h3 mb-3">Sunday</p>
+                                    <p class="small mb-0">Cloudy</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center mb-3">
+                                <div class="flex-column"><i class="fas fa-minus"></i></div>
+                                @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
+                                    <div class="flex-column border" style="border-radius: 10px; padding: .75rem;">
+                                        <p class="small mb-1">{{ $day }}</p>
+                                        <p class="small mb-0"><strong>-4°C</strong></p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Humidity Card -->
+            <div class="col-md-4">
+                <section class="vh-100">
+                    <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+                        <div class="card-body p-4 text-center">
+                            <div class="d-flex justify-content-around mt-3">
+                                <p class="h3 mb-3">💧 Humidite</p>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center py-5 my-4">
+                                <p class="fw-bold mb-0" style="font-size: 7rem;">-4°C</p>
+                                <div class="text-start">
+                                    <p class="small">10:00</p>
+                                    <p class="h3 mb-3">Sunday</p>
+                                    <p class="small mb-0">Cloudy</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center mb-3">
+                                <div class="flex-column"><i class="fas fa-minus"></i></div>
+                                @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
+                                    <div class="flex-column border" style="border-radius: 10px; padding: .75rem;">
+                                        <p class="small mb-1">{{ $day }}</p>
+                                        <p class="small mb-0"><strong>-4°C</strong></p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Gas Card -->
+            <div class="col-md-4">
+                <section class="vh-100">
+                    <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+                        <div class="card-body p-4 text-center">
+                            <div class="d-flex justify-content-around mt-3">
+                                <p class="h3 mb-3">🫁 Gaz</p>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center py-5 my-4">
+                                <p class="fw-bold mb-0" style="font-size: 7rem;">-4°C</p>
+                                <div class="text-start">
+                                    <p class="small">10:00</p>
+                                    <p class="h3 mb-3">Sunday</p>
+                                    <p class="small mb-0">Cloudy</p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-around align-items-center mb-3">
+                                <div class="flex-column"><i class="fas fa-minus"></i></div>
+                                @foreach (['Sun', 'Mon', 'Tue'] as $day)
+                                    <div class="flex-column border" style="border-radius: 10px; padding: .75rem;">
+                                        <p class="small mb-1">{{ $day }}</p>
+                                        <p class="small mb-0"><strong>-4°C</strong></p>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+        </div>
+        <div class="container-fluid py-4">
+            <div class="row">
+                <!-- CO2 Chart -->
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="mb-0">Lectures du capteur de Gaz</h6>
+                            <div id="gas-sensor-chart" style="width: 100%; height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Humidity Chart -->
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="mb-0">Lectures du capteur d'Humidité</h6>
+                            <div id="humidity-chart" style="width: 100%; height: 350px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temperature Chart -->
+                <div class="col-md-4">
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="mb-0">Lectures du capteur de Température</h6>
+                            <div id="temperature-chart" style="width: 100%; height: 350px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Humidity Chart -->
-            <div class="col-md-4">
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h6 class="mb-0">Lectures du capteur d'Humidité</h6>
-                        <div id="humidity-chart" style="width: 100%; height: 350px;"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Temperature Chart -->
-            <div class="col-md-4">
-                <div class="card mt-4">
-                    <div class="card-body">
-                        <h6 class="mb-0">Lectures du capteur de Température</h6>
-                        <div id="temperature-chart" style="width: 100%; height: 350px;"></div>
-                    </div>
-                </div>
-            </div>
         </div>
 
     </div>
+
+
+
+
 
     <script>
         document.addEventListener("DOMContentLoaded", function () {
