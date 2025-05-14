@@ -56,7 +56,38 @@ class SensorDataController extends Controller
         ];
     });
 
-    return response()->json($formatted);
+return response()->json($formatted);
 }
+
+
+
+
+public function latestTemperature(): JsonResponse
+{
+    $data = Status::orderBy('datetimes', 'desc')
+        ->limit(3)
+        ->get(['temperature', 'datetimes']);
+
+    return response()->json($data);
+}
+
+public function latestHumidity(): JsonResponse
+{
+    $data = Status::orderBy('datetimes', 'desc')
+        ->limit(3)
+        ->get(['humidete', 'datetimes']);
+
+    return response()->json($data);
+}
+
+public function latestGas(): JsonResponse
+{
+    $data = Status::orderBy('datetimes', 'desc')
+        ->limit(3)
+        ->get(['niveauco2', 'datetimes']);
+
+    return response()->json($data);
+}
+
 
 }

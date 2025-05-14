@@ -9,114 +9,126 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="assets/css/soft-ui-dashboard.css" rel="stylesheet" />
-
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
 
-    <div class="container-fluid py-4">
-        <div class="row">
+    @php
+        use App\Models\Status;
+        use Carbon\Carbon;
 
-            <!-- Temperature Card -->
-            <div class="col-md-4">
-                <section class="vh-100">
-                    <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
-                        <div class="card-body p-4 text-center">
-                            <div class="d-flex justify-content-around mt-3">
-                                <p class="h3 mb-3">🌡️ Temperature</p>
-                            </div>
-                            <div class="d-flex justify-content-around align-items-center py-5 my-4">
-                                <p class="fw-bold mb-0" style="font-size: 7rem;">-4°C</p>
-                                <div class="text-start">
-                                    <p class="small">10:00</p>
-                                    <p class="h3 mb-3">Sunday</p>
-                                    <p class="small mb-0">Cloudy</p>
+        $temperatureData = Status::orderBy('datetimes', 'desc')
+            ->limit(3)
+            ->get(['temperature', 'datetimes']);
+        $humidityData = Status::orderBy('datetimes', 'desc')
+            ->limit(3)
+            ->get(['humidete', 'datetimes']);
+        $gasData = Status::orderBy('datetimes', 'desc')
+            ->limit(3)
+            ->get(['niveauco2', 'datetimes']);
+
+        $latestTemp = $temperatureData->first();
+        $latestHumidity = $humidityData->first();
+        $latestGas = $gasData->first();
+    @endphp
+    <div>
+
+            <div>
+                <div class="container-fluid py-4">
+                    <div class="row mb-2">
+
+                        <!-- Temperature Card -->
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+                                <div class="card-body p-3 text-center">
+                                    <p class="h5 mb-3">🌡️ Température</p>
+                                    <div class="d-flex justify-content-around align-items-center my-3">
+                                        <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestTemp->temperature }}°C</p>
+                                        <div class="text-start">
+                                            <p class="small">{{ \Carbon\Carbon::parse($latestTemp->datetimes)->format('H:i') }}
+                                            </p>
+                                            <p class="h6">{{ \Carbon\Carbon::parse($latestTemp->datetimes)->format('l') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-around flex-wrap">
+                                        @foreach ($temperatureData as $entry)
+                                            <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
+                                                <p class="small mb-1">
+                                                    {{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}</p>
+                                                <p class="small mb-0"><strong>{{ $entry->temperature }}°C</strong></p>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-around align-items-center mb-3">
-                                <div class="flex-column"><i class="fas fa-minus"></i></div>
-                                @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
-                                    <div class="flex-column border" style="border-radius: 10px; padding: .75rem;">
-                                        <p class="small mb-1">{{ $day }}</p>
-                                        <p class="small mb-0"><strong>-4°C</strong></p>
-                                    </div>
-                                @endforeach
-                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
 
-            <!-- Humidity Card -->
-            <div class="col-md-4">
-                <section class="vh-100">
-                    <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
-                        <div class="card-body p-4 text-center">
-                            <div class="d-flex justify-content-around mt-3">
-                                <p class="h3 mb-3">💧 Humidite</p>
-                            </div>
-                            <div class="d-flex justify-content-around align-items-center py-5 my-4">
-                                <p class="fw-bold mb-0" style="font-size: 7rem;">-4°C</p>
-                                <div class="text-start">
-                                    <p class="small">10:00</p>
-                                    <p class="h3 mb-3">Sunday</p>
-                                    <p class="small mb-0">Cloudy</p>
+                        <!-- Humidity Card -->
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+                                <div class="card-body p-3 text-center">
+                                    <p class="h5 mb-3">💧 Humidité</p>
+                                    <div class="d-flex justify-content-around align-items-center my-3">
+                                        <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestHumidity->humidete }}%</p>
+                                        <div class="text-start">
+                                            <p class="small">
+                                                {{ \Carbon\Carbon::parse($latestHumidity->datetimes)->format('H:i') }}</p>
+                                            <p class="h6">
+                                                {{ \Carbon\Carbon::parse($latestHumidity->datetimes)->format('l') }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-around flex-wrap">
+                                        @foreach ($humidityData as $entry)
+                                            <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
+                                                <p class="small mb-1">
+                                                    {{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}</p>
+                                                <p class="small mb-0"><strong>{{ $entry->humidete }}%</strong></p>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-around align-items-center mb-3">
-                                <div class="flex-column"><i class="fas fa-minus"></i></div>
-                                @foreach (['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'] as $day)
-                                    <div class="flex-column border" style="border-radius: 10px; padding: .75rem;">
-                                        <p class="small mb-1">{{ $day }}</p>
-                                        <p class="small mb-0"><strong>-4°C</strong></p>
-                                    </div>
-                                @endforeach
-                            </div>
                         </div>
-                    </div>
-                </section>
-            </div>
 
-            <!-- Gas Card -->
-            <div class="col-md-4">
-                <section class="vh-100">
-                    <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
-                        <div class="card-body p-4 text-center">
-                            <div class="d-flex justify-content-around mt-3">
-                                <p class="h3 mb-3">🫁 Gaz</p>
-                            </div>
-                            <div class="d-flex justify-content-around align-items-center py-5 my-4">
-                                <p class="fw-bold mb-0" style="font-size: 7rem;">-4°C</p>
-                                <div class="text-start">
-                                    <p class="small">10:00</p>
-                                    <p class="h3 mb-3">Sunday</p>
-                                    <p class="small mb-0">Cloudy</p>
+                        <!-- Gas Card -->
+                        <div class="col-lg-4 col-md-6 mb-4">
+                            <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+                                <div class="card-body p-3 text-center">
+                                    <p class="h5 mb-3">🫁 Gaz (CO₂)</p>
+                                    <div class="d-flex justify-content-around align-items-center my-3">
+                                        <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestGas->niveauco2 }} ppm</p>
+                                        <div class="text-start">
+                                            <p class="small">{{ \Carbon\Carbon::parse($latestGas->datetimes)->format('H:i') }}
+                                            </p>
+                                            <p class="h6">{{ \Carbon\Carbon::parse($latestGas->datetimes)->format('l') }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-around flex-wrap">
+                                        @foreach ($gasData as $entry)
+                                            <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
+                                                <p class="small mb-1">
+                                                    {{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}</p>
+                                                <p class="small mb-0"><strong>{{ $entry->niveauco2 }} ppm</strong></p>
+                                            </div>
+                                        @endforeach
+                                    </div>
                                 </div>
                             </div>
-                            <div class="d-flex justify-content-around align-items-center mb-3">
-                                <div class="flex-column"><i class="fas fa-minus"></i></div>
-                                @foreach (['Sun', 'Mon', 'Tue'] as $day)
-                                    <div class="flex-column border" style="border-radius: 10px; padding: .75rem;">
-                                        <p class="small mb-1">{{ $day }}</p>
-                                        <p class="small mb-0"><strong>-4°C</strong></p>
-                                    </div>
-                                @endforeach
-                            </div>
                         </div>
+
                     </div>
-                </section>
+                </div>
             </div>
 
-        </div>
-        <div class="container-fluid py-4">
+
+
+            <!-- Charts -->
             <div class="row">
-                <!-- CO2 Chart -->
-                <div class="col-md-4">
-                    <div class="card mt-4">
+                <div class="col-md-6">
+                    <div class="card custom-chart">
                         <div class="card-body">
                             <h6 class="mb-0">Lectures du capteur de Gaz</h6>
                             <div id="gas-sensor-chart" style="width: 100%; height: 350px;"></div>
@@ -124,9 +136,8 @@
                     </div>
                 </div>
 
-                <!-- Humidity Chart -->
-                <div class="col-md-4">
-                    <div class="card mt-4">
+                <div class="col-md-6">
+                    <div class="card custom-chart">
                         <div class="card-body">
                             <h6 class="mb-0">Lectures du capteur d'Humidité</h6>
                             <div id="humidity-chart" style="width: 100%; height: 350px;"></div>
@@ -134,9 +145,8 @@
                     </div>
                 </div>
 
-                <!-- Temperature Chart -->
-                <div class="col-md-4">
-                    <div class="card mt-4">
+                <div class="col-md-6">
+                    <div class="card custom-chart">
                         <div class="card-body">
                             <h6 class="mb-0">Lectures du capteur de Température</h6>
                             <div id="temperature-chart" style="width: 100%; height: 350px;"></div>
@@ -144,36 +154,15 @@
                     </div>
                 </div>
             </div>
-
+            </div>
         </div>
-
-    </div>
-
-
-
-
-
+    <!-- Chart Scripts -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Temperature Chart
+        document.addEventListener("DOMContentLoaded", function() {
             const temperatureChart = new ApexCharts(document.querySelector("#temperature-chart"), {
                 chart: {
                     height: 350,
-                    type: 'line',
-                    dropShadow: {
-                        enabled: true,
-                        color: '#000',
-                        top: 18,
-                        left: 7,
-                        blur: 10,
-                        opacity: 0.2
-                    },
-                    zoom: {
-                        enabled: false
-                    },
-                    toolbar: {
-                        show: false
-                    }
+                    type: 'line'
                 },
                 colors: ['#77B6EA'],
                 dataLabels: {
@@ -181,16 +170,6 @@
                 },
                 stroke: {
                     curve: 'smooth'
-                },
-                grid: {
-                    borderColor: '#e7e7e7',
-                    row: {
-                        colors: ['#f3f3f3', 'transparent'],
-                        opacity: 0.5
-                    }
-                },
-                markers: {
-                    size: 3
                 },
                 xaxis: {
                     type: 'datetime',
@@ -207,24 +186,19 @@
                 },
                 series: [{
                     name: "Température",
-                    data: [] // will be populated by fetch
+                    data: []
                 }]
             });
-
             temperatureChart.render();
-
             fetch("/chart-data/temperature")
                 .then(res => res.json())
                 .then(data => {
-                    console.log("Temperature data:", data); // Debugging output
                     temperatureChart.updateSeries([{
                         name: "Température",
-                        data: data
+                        data
                     }]);
-                })
-                .catch(err => console.error("Failed to load temperature data", err));
+                });
 
-            // Humidity Chart
             const humidityChart = new ApexCharts(document.querySelector("#humidity-chart"), {
                 chart: {
                     height: 350,
@@ -248,19 +222,16 @@
                     max: 100
                 }
             });
-
             humidityChart.render();
-
             fetch("/chart-data/humidity")
                 .then(res => res.json())
                 .then(data => {
                     humidityChart.updateSeries([{
                         name: "Humidité",
-                        data: data
+                        data
                     }]);
                 });
 
-            // Gas Chart
             const gasChart = new ApexCharts(document.querySelector("#gas-sensor-chart"), {
                 chart: {
                     height: 350,
@@ -284,15 +255,13 @@
                     max: 1000
                 }
             });
-
             gasChart.render();
-
             fetch("/chart-data/gas")
                 .then(res => res.json())
                 .then(data => {
                     gasChart.updateSeries([{
                         name: "CO2",
-                        data: data
+                        data
                     }]);
                 });
         });
