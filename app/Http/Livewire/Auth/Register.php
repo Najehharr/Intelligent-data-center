@@ -10,11 +10,13 @@ class Register extends Component
 
     public $name ='';
     public $email = '';
+    public $role = '';
     public $password = '';
 
     protected $rules=[
     'name' => 'required|min:3',
     'email' => 'required|email|unique:users,email',
+    'role' => 'required|string',
     'password' => 'required|min:5',];
 
 
@@ -25,9 +27,9 @@ class Register extends Component
         $user = User::create($attributes);
 
         auth()->login($user);
-        
+
         return redirect('/dashboard');
-    } 
+    }
 
     public function render()
     {
