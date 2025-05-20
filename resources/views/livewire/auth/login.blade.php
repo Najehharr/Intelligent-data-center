@@ -1,3 +1,5 @@
+
+
 <div class="container my-auto mt-5">
     <div class="row signin-margin">
         <div class="col-lg-4 col-md-8 col-12 mx-auto">
@@ -7,7 +9,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex justify-content-center">
-                        <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image" width="250">
+                        <img src="{{ asset('assets/img/logos/hopital/Hopital.jpg') }}" alt="Hospital Image" width="250" height="">
                     </div>
 
                     <div class="d-flex justify-content-center">

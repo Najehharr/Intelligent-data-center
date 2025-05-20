@@ -43,6 +43,17 @@ class User extends Authenticatable
         $this->attributes['password'] = bcrypt($password);
     }
 
+
+    public function isAgent()
+{
+    return $this->role === 'agent';
+}
+
+public function isTechnician()
+{
+    return $this->role === 'technician';
+}
+
     /**
      * The attributes that should be cast.
      *

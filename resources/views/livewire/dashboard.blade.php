@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>Sensor Dashboard</title>
@@ -16,9 +17,15 @@
         use App\Models\Status;
         use Carbon\Carbon;
 
-        $temperatureData = Status::orderBy('datetimes', 'desc')->limit(3)->get(['temperature', 'datetimes']);
-        $humidityData = Status::orderBy('datetimes', 'desc')->limit(3)->get(['humidete', 'datetimes']);
-        $gasData = Status::orderBy('datetimes', 'desc')->limit(3)->get(['niveauco2', 'datetimes']);
+        $temperatureData = Status::orderBy('datetimes', 'desc')
+            ->limit(3)
+            ->get(['temperature', 'datetimes']);
+        $humidityData = Status::orderBy('datetimes', 'desc')
+            ->limit(3)
+            ->get(['humidete', 'datetimes']);
+        $gasData = Status::orderBy('datetimes', 'desc')
+            ->limit(3)
+            ->get(['niveauco2', 'datetimes']);
 
         $latestTemp = $temperatureData->first();
         $latestHumidity = $humidityData->first();
@@ -42,7 +49,8 @@
                         <div class="d-flex justify-content-around flex-wrap">
                             @foreach ($temperatureData as $entry)
                                 <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
-                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}</p>
+                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}
+                                    </p>
                                     <p class="small mb-0"><strong>{{ $entry->temperature }}°C</strong></p>
                                 </div>
                             @endforeach
@@ -59,14 +67,17 @@
                         <div class="d-flex justify-content-around align-items-center my-3">
                             <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestHumidity->humidete }}%</p>
                             <div class="text-start">
-                                <p class="small">{{ \Carbon\Carbon::parse($latestHumidity->datetimes)->format('H:i') }}</p>
-                                <p class="h6">{{ \Carbon\Carbon::parse($latestHumidity->datetimes)->format('l') }}</p>
+                                <p class="small">{{ \Carbon\Carbon::parse($latestHumidity->datetimes)->format('H:i') }}
+                                </p>
+                                <p class="h6">{{ \Carbon\Carbon::parse($latestHumidity->datetimes)->format('l') }}
+                                </p>
                             </div>
                         </div>
                         <div class="d-flex justify-content-around flex-wrap">
                             @foreach ($humidityData as $entry)
                                 <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
-                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}</p>
+                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}
+                                    </p>
                                     <p class="small mb-0"><strong>{{ $entry->humidete }}%</strong></p>
                                 </div>
                             @endforeach
@@ -90,7 +101,8 @@
                         <div class="d-flex justify-content-around flex-wrap">
                             @foreach ($gasData as $entry)
                                 <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
-                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}</p>
+                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}
+                                    </p>
                                     <p class="small mb-0"><strong>{{ $entry->niveauco2 }} ppm</strong></p>
                                 </div>
                             @endforeach
@@ -119,7 +131,7 @@
                     </div>
                 </div>
             </div>
-
+            
             <div class="col-md-6">
                 <div class="card custom-chart">
                     <div class="card-body">
@@ -128,32 +140,110 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="card custom-chart">
+    <div class="card-body px-0 pb-2">
+        <h6 class="text-center text-sm font-weight-bold pt-3">Accès Acceptés (RFID)</h6>
+        <div class="table-responsive p-0" style="max-height: 350px; overflow-y: auto;">
+            <table class="table align-items-center mb-0">
+                <thead>
+                    <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            Numéro de carte</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                            Date d'entrée</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            Access</th>
+                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                            Traité</th>
+                        <th class="text-secondary opacity-7"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($data->where('access', 'ACCEPTED') as $entry)
+                    <tr>
+                        <td>
+                            <div class="d-flex px-2 py-1">
+                                <div class="d-flex flex-column justify-content-center">
+                                    <h6 class="mb-0 text-sm">{{ $entry->Numcart }}</h6>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-xs font-weight-bold mb-0">{{ $entry->date }}</p>
+                        </td>
+                        <td class="align-middle text-center text-sm">
+                            <span class="badge badge-sm bg-gradient-success">
+                                Accepté
+                            </span>
+                        </td>
+                        <td class="align-middle text-center">
+                            <span class="text-secondary text-xs font-weight-bold">
+                                {{ $entry->traite == '1' ? 'Oui' : 'Non' }}
+                            </span>
+                        </td>
+                    </tr>
+                    @endforeach
+                    @if($data->where('access', 'ACCEPTED')->isEmpty())
+                    <tr>
+                        <td colspan="4" class="text-center text-muted py-4">
+                            Aucun accès accepté trouvé.
+                        </td>
+                    </tr>
+                    @endif
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+            </div>
         </div>
     </div>
 
     <!-- Chart Scripts -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             // Temperature Chart
             const temperatureChart = new ApexCharts(document.querySelector("#temperature-chart"), {
-                chart: { type: 'line', height: 350 },
+                chart: {
+                    type: 'line',
+                    height: 350
+                },
                 colors: ['#77B6EA'],
-                dataLabels: { enabled: true },
-                stroke: { curve: 'smooth' },
+                dataLabels: {
+                    enabled: true
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
                 xaxis: {
                     type: 'datetime',
-                    title: { text: 'Temps' }
+                    title: {
+                        text: 'Temps'
+                    }
                 },
                 yaxis: {
-                    title: { text: 'Température (°C)' },
-                    min: 0, max: 50
+                    title: {
+                        text: 'Température (°C)'
+                    },
+                    min: 0,
+                    max: 50
                 },
-                series: [{ name: "Température", data: [] }]
+                series: [{
+                    name: "Température",
+                    data: []
+                }]
             });
             temperatureChart.render();
             fetch("/chart-data/temperature")
                 .then(res => res.json())
-                .then(data => temperatureChart.updateSeries([{ name: "Température", data }]));
+                .then(data => temperatureChart.updateSeries([{
+                    name: "Température",
+                    data
+                }]));
 
             // Humidity Chart
             fetch('/chart-data/humidity')
@@ -166,11 +256,18 @@
                             stacked: true,
                         },
                         colors: ['#00C9A7'],
-                        dataLabels: { enabled: false },
-                        stroke: { curve: 'monotoneCubic' },
+                        dataLabels: {
+                            enabled: false
+                        },
+                        stroke: {
+                            curve: 'monotoneCubic'
+                        },
                         fill: {
                             type: 'gradient',
-                            gradient: { opacityFrom: 0.6, opacityTo: 0.8 }
+                            gradient: {
+                                opacityFrom: 0.6,
+                                opacityTo: 0.8
+                            }
                         },
                         legend: {
                             position: 'top',
@@ -178,34 +275,58 @@
                         },
                         xaxis: {
                             type: 'datetime',
-                            labels: { datetimeUTC: false }
+                            labels: {
+                                datetimeUTC: false
+                            }
                         },
-                        series: [{ name: 'Humidité', data }]
+                        series: [{
+                            name: 'Humidité',
+                            data
+                        }]
                     });
                     humidityChart.render();
                 });
 
             // Gas Chart
             const gasChart = new ApexCharts(document.querySelector("#gas-sensor-chart"), {
-                chart: { type: 'line', height: 350 },
+                chart: {
+                    type: 'line',
+                    height: 350
+                },
                 colors: ['#FF5733'],
-                dataLabels: { enabled: true },
-                stroke: { curve: 'smooth' },
+                dataLabels: {
+                    enabled: true
+                },
+                stroke: {
+                    curve: 'smooth'
+                },
                 xaxis: {
                     type: 'datetime',
-                    title: { text: 'Temps' }
+                    title: {
+                        text: 'Temps'
+                    }
                 },
                 yaxis: {
-                    title: { text: 'Niveau CO₂ (ppm)' },
-                    min: 0, max: 1000
+                    title: {
+                        text: 'Niveau CO₂ (ppm)'
+                    },
+                    min: 0,
+                    max: 1000
                 },
-                series: [{ name: "CO₂", data: [] }]
+                series: [{
+                    name: "CO₂",
+                    data: []
+                }]
             });
             gasChart.render();
             fetch("/chart-data/gas")
                 .then(res => res.json())
-                .then(data => gasChart.updateSeries([{ name: "CO₂", data }]));
+                .then(data => gasChart.updateSeries([{
+                    name: "CO₂",
+                    data
+                }]));
         });
     </script>
 </body>
+
 </html>

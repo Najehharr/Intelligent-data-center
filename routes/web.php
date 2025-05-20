@@ -32,6 +32,17 @@ Route::get('/', function(){
 
 Route::get('forgot-password', ForgotPassword::class)->middleware('guest')->name('password.forgot');
 Route::get('reset-password/{id}', ResetPassword::class)->middleware('signed')->name('reset-password');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});
+
+    // ✅ Accessible to both roles
+    Route::get('notifications', Notifications::class)->name('notifications');
+    Route::view('/gaz', 'livewire.gaz')->name('gaz');
+    Route::view('/temperature', 'livewire.temperature')->name('temperature');
+    Route::view('/humidite', 'livewire.humidite')->name('humidite');
 
 
 
@@ -90,11 +101,8 @@ Route::get('dashboard', Dashboard::class)->name('dashboard');
 
 Route::post('/sensor-data', [SensorDataController::class, 'store']);
 
-// Routes for Admin only
-Route::middleware(['auth', 'role:admin'])->group(function () {
-    Route::get('/admin/dashboard', [AdminController::class, 'dashboard']);
-    Route::get('/admin/manage-users', [AdminController::class, 'manageUsers']);
-});
+
+
 
 // Routes for Normal users
 Route::middleware(['auth', 'role:user'])->group(function () {
