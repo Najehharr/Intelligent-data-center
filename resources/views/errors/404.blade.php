@@ -21,7 +21,7 @@
   <link rel="apple-touch-icon" sizes="76x76" href="../assets/img/apple-icon.png">
   <link rel="icon" type="image/png" href="../assets/img/favicon.png">
   <title>
-    Material Dashboard 2 by Creative Tim & UPDIVISION
+    Systéme de contrôle
   </title>
   <!--     Fonts and icons     -->
   <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
@@ -44,7 +44,7 @@
         <nav class="navbar navbar-expand-lg blur border-radius-xl top-0 z-index-3 shadow position-absolute my-3 py-2 start-0 end-0 mx-4">
           <div class="container-fluid ps-2 pe-0">
             <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3 " href="../pages/dashboard.html">
-              Material Dashboard 2
+
             </a>
             <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2">
@@ -69,7 +69,7 @@
                     Profile
                   </a>
                 </li>
-                                  
+
                 @endauth
                 <li class="nav-item">
                   <a class="nav-link me-2" href="{{ route('register') }}">
@@ -103,8 +103,8 @@
         <div class="row">
           <div class="col-md-12">
             <h1 class="title text-light">404</h1>
-            <h2 class="text-light">Page not found </h2>
-            <h4 class="text-light">Ooooups! Looks like you got lost.</h4>
+            <h2 class="text-light">Page non trouvée </h2>
+
           </div>
         </div>
       </div>
@@ -122,20 +122,7 @@
               </div>
             </div>
             <div class="col-12 col-md-6">
-              <ul class="nav nav-footer justify-content-center justify-content-lg-end">
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com" class="nav-link text-white" target="_blank">Creative Tim</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/presentation" class="nav-link text-white" target="_blank">About Us</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/blog" class="nav-link text-white" target="_blank">Blog</a>
-                </li>
-                <li class="nav-item">
-                  <a href="https://www.creative-tim.com/license" class="nav-link pe-0 text-white" target="_blank">License</a>
-                </li>
-              </ul>
+             
             </div>
           </div>
         </div>

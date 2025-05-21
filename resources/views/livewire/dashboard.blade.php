@@ -131,7 +131,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-6">
                 <div class="card custom-chart">
                     <div class="card-body">
@@ -140,9 +140,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="card custom-chart">
-    <div class="card-body px-0 pb-2">
+        <div class="col-md-6">
+        <div class="card custom-chart">
+        <div class="card-body px-0 pb-2">
         <h6 class="text-center text-sm font-weight-bold pt-3">Accès Acceptés (RFID)</h6>
         <div class="table-responsive p-0" style="max-height: 350px; overflow-y: auto;">
             <table class="table align-items-center mb-0">

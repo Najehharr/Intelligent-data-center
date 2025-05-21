@@ -8,11 +8,9 @@ use App\Models\AcessRoom;
 class Dashboard extends Component
 {
     public function render()
-    {
-        $data = AcessRoom::orderBy('date', 'desc')->get();
+{
+    $data = AcessRoom::orderBy('date', 'desc')->get();
+    return view('livewire.dashboard', ['data' => $data]);
+}
 
-        return view('livewire.dashboard', [
-            'data' => $data 
-        ]);
-    }
 }

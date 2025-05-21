@@ -44,6 +44,9 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/temperature', 'livewire.temperature')->name('temperature');
     Route::view('/humidite', 'livewire.humidite')->name('humidite');
 
+Route::get('/agent-dashboard', \App\Http\Livewire\Dashboard::class)->name('agent');
+Route::get('/technicien-dashboard', \App\Http\Livewire\Dashboard::class)->name('technicien');
+
 
 
 Route::get('sign-up', Register::class)->middleware('guest')->name('register');
@@ -73,8 +76,7 @@ Route::view('/humidite', 'livewire.humidite')->name('humidite');
 
 
 
-Route::get('/temperature/latest', [TemperatureSensorController::class, 'latest']);
-Route::post('/store/temperature', [TemperatureSensorController::class, 'store']);
+
 
 Route::get('/chart-data/temperature', [SensorDataController::class, 'temperature']);
 Route::get('/chart-data/humidity', [SensorDataController::class, 'humidity']);
@@ -82,8 +84,6 @@ Route::get('/chart-data/gas', [SensorDataController::class, 'gas']);
 
 
 
-Route::get('/humidity/latest', [HumiditySensorController::class, 'latest']);
-Route::post('/store/humidity', [HumiditySensorController::class, 'store']);
 
 
 

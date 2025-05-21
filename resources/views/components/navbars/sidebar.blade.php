@@ -14,7 +14,7 @@
 
             {{-- Show only to agents --}}
             @auth
-                @if (Auth::user()->role === 'agent')
+                @if (Auth::user()->role === 'Agent')
                     {{-- User Management --}}
                     <li class="nav-item">
                         <a class="nav-link text-white {{ Route::currentRouteName() == 'user-management' ? 'active' : '' }}"
@@ -78,7 +78,7 @@
 
             {{-- Tables and Accès: Agent Only --}}
             @auth
-                @if (Auth::user()->role === 'agent')
+                @if (Auth::user()->role === 'Agent')
                     {{-- Acces --}}
                     <li class="nav-item">
                         <a class="nav-link text-white {{ Route::currentRouteName() == 'tables' ? 'active' : '' }}"
