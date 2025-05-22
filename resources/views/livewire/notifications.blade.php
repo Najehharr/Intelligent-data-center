@@ -1,115 +1,82 @@
-<body>
-    <div class="container-fluid py-4">
-      <div class="row">
-        <!-- CO2 Chart -->
-        <div class="col-md-10 col-lg-10">
-          <div class="card mt-4">
-            <div class="card-body">
-              <h6 class="mb-0">Gas Sensor Readings</h6>
-              <div id="gas-sensor-chart" style="width: 100%; height: 350px;"></div>
-              <div id="gas-alert" class="alert alert-danger mt-3 d-none" role="alert">
-                ⚠️ Alerte : Niveau de gaz élevé détecté !
-              </div>
-            </div>
-          </div>
-        </div>
+@php
+    use App\Models\Status;
+    use Carbon\Carbon;
 
-        <!-- Humidity Chart -->
-        <div class="col-md-10 col-lg-10">
-          <div class="card mt-4">
-            <div class="card-body">
-              <h6 class="mb-0">Humidity Levels</h6>
-              <div id="humidity-chart" style="width: 100%; height: 350px;"></div>
-              <div id="humidity-alert" class="alert alert-warning mt-3 d-none" role="alert">
-                ⚠️ Alerte : Humidité en dehors des seuils !
-              </div>
-            </div>
-          </div>
-        </div>
+    $temperatureThreshold = 10; // °C
+    $humidityThreshold = 90; // %
+    $co2Threshold = 700; // ppm
 
-        <!-- Temperature Chart -->
-        <div class="col-md-10 col-lg-10">
-          <div class="card mt-4">
-            <div class="card-body">
-              <h6 class="mb-0">Température Moyenne Haute et Basse</h6>
-              <div id="temperature-chart" style="width: 100%; height: 350px;"></div>
-              <div id="temperature-alert" class="alert alert-primary mt-3 d-none" role="alert">
-                ⚠️ Alerte : Température hors des seuils !
-              </div>
+    $temperatureData = Status::orderBy('datetimes', 'desc')
+        ->limit(3)
+        ->get(['temperature', 'datetimes']);
+    $humidityData = Status::orderBy('datetimes', 'desc')
+        ->limit(3)
+        ->get(['humidete', 'datetimes']);
+    $gasData = Status::orderBy('datetimes', 'desc')
+        ->limit(3)
+        ->get(['niveauco2', 'datetimes']);
+
+    $latestTemp = $temperatureData->first();
+    $latestHumidity = $humidityData->first();
+    $latestGas = $gasData->first();
+@endphp
+
+<div class="row">
+    {{-- Temperature Card --}}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+            <div class="card-body p-3 text-center">
+                <p class="h5 mb-3">🌡️ Température</p>
+
+                @if ($latestTemp->temperature > $temperatureThreshold)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        🔥 <strong>Attention !</strong> Température élevée détectée ({{ $latestTemp->temperature }}°C).
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                    </div>
+                @endif
+
             </div>
-          </div>
         </div>
-      </div>
     </div>
 
-    <!-- Scripts -->
-    <script>
-      const client = mqtt.connect('wss://test.mosquitto.org:8081/mqtt');
+    {{-- Humidity Card --}}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+            <div class="card-body p-3 text-center">
+                <p class="h5 mb-3">💧 Humidité</p>
 
-      const chartOptions = (title) => ({
-        chart: { type: 'line', height: 350 },
-        series: [{ name: title, data: [] }],
-        xaxis: { type: 'datetime' }
-      });
 
-      const maxPoints = 20;
 
-      const temperatureChart = new ApexCharts(document.querySelector("#temperature-chart"), chartOptions("Temperature"));
-      const humidityChart = new ApexCharts(document.querySelector("#humidity-chart"), chartOptions("Humidity"));
-      const co2Chart = new ApexCharts(document.querySelector("#gas-sensor-chart"), chartOptions("CO2 Level"));
+                @if ((float)$latestHumidity->humidete > $humidityThreshold)
 
-      temperatureChart.render();
-      humidityChart.render();
-      co2Chart.render();
 
-      const charts = {
-        "esp32/temperature": temperatureChart,
-        "esp32/humidity": humidityChart,
-        "esp32/co2_level": co2Chart
-      };
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        💦 <strong>Humidité élevée !</strong> ({{ $latestHumidity->humidete }}%)
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                    </div>
+                @endif
 
-      // Thresholds
-      const thresholds = {
-        "esp32/temperature": { min: 10, max: 35, alertId: "temperature-alert" },
-        "esp32/humidity": { min: 30, max: 70, alertId: "humidity-alert" },
-        "esp32/co2_level": { max: 800, alertId: "gas-alert" }
-      };
 
-      function checkThresholds(topic, value) {
-        const th = thresholds[topic];
-        if (!th) return;
+            </div>
+        </div>
+    </div>
 
-        const alertEl = document.getElementById(th.alertId);
-        let show = false;
+    {{-- CO2 Gas Card --}}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+            <div class="card-body p-3 text-center">
+                <p class="h5 mb-3">🫁 Gaz (CO₂)</p>
 
-        if (topic === "esp32/co2_level") {
-          show = value > th.max;
-        } else {
-          show = value < th.min || value > th.max;
-        }
 
-        alertEl.classList.toggle("d-none", !show);
-      }
+                @if ($latestGas->niveauco2 > $co2Threshold)
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        🚨 <strong>Alerte !</strong> Niveau de CO₂ élevé détecté ({{ $latestGas->niveauco2 }} ppm).
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                    </div>
+                @endif
 
-      client.on('connect', () => {
-        console.log("✅ Connected to MQTT broker");
-        Object.keys(charts).forEach(topic => client.subscribe(topic));
-      });
 
-      client.on('message', (topic, message) => {
-        const value = parseFloat(message.toString());
-        const timestamp = new Date().getTime();
-
-        const chart = charts[topic];
-        if (chart && chart.w && chart.w.globals && chart.w.globals.series[0]) {
-          let data = chart.w.globals.series[0].data || [];
-          data.push([timestamp, value]);
-          if (data.length > maxPoints) data.shift();
-          chart.updateSeries([{ data }]);
-        }
-
-        // Check for alerts
-        checkThresholds(topic, value);
-      });
-    </script>
-  </body>
+            </div>
+        </div>
+    </div>
+</div>

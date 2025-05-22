@@ -37,30 +37,7 @@
 
     <div class="container-fluid py-4">
         <div class="row mb-2">
-            <!-- Temperature Card -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
-                    <div class="card-body p-3 text-center">
-                        <p class="h5 mb-3">🌡️ Température</p>
-                        <div class="d-flex justify-content-around align-items-center my-3">
-                            <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestTemp->temperature }}°C</p>
-                            <div class="text-start">
-                                <p class="small">{{ \Carbon\Carbon::parse($latestTemp->datetimes)->format('H:i') }}</p>
-                                <p class="h6">{{ \Carbon\Carbon::parse($latestTemp->datetimes)->format('l') }}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-around flex-wrap">
-                            @foreach ($temperatureData as $entry)
-                                <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
-                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}
-                                    </p>
-                                    <p class="small mb-0"><strong>{{ $entry->temperature }}°C</strong></p>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
+           
 
 
 
