@@ -1,7 +1,10 @@
 <?php
 
-use App\Models\GasSensor; // <-- fix the import
 
+namespace App\Http\Controllers;
+
+use App\Models\GasSensor;
+use Illuminate\Http\Request;
 class Co2StatusSensorController extends Controller
 {
     public function store(Request $request)

@@ -1,328 +1,133 @@
-<!-- Navbar -->
-<!-- End Navbar -->
+
+<div>
+@extends('layouts.app') {{-- Assuming you have a main layout called layouts.app --}}
+
+@section('content')
 <div class="container-fluid py-4">
+
+    {{-- Flash Message --}}
+    @if (session('message'))
+        <div class="alert alert-success">{{ session('message') }}</div>
+    @endif
+
+    {{-- Edit User Form --}}
+    @isset($editUser)
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card p-4">
+                    <h5>Modifier l'utilisateur</h5>
+                    <form action="{{ route('users.update', $editUser->id) }}" method="POST">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="name">Nom</label>
+                            <input type="text" name="name" id="name" value="{{ old('name', $editUser->name) }}" class="form-control" required>
+                            @error('name') <div class="text-danger">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" value="{{ old('email', $editUser->email) }}" class="form-control" required>
+                            @error('email') <div class="text-danger">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="role">Rôle</label>
+                            <select name="role" id="role" class="form-control" required>
+                                <option value="Admin" {{ old('role', $editUser->role) == 'Admin' ? 'selected' : '' }}>Admin</option>
+                                <option value="Agent" {{ old('role', $editUser->role) == 'Agent' ? 'selected' : '' }}>Agent</option>
+                                <option value="Technicien" {{ old('role', $editUser->role) == 'Technicien' ? 'selected' : '' }}>Technicien</option>
+                                <option value="User" {{ old('role', $editUser->role) == 'User' ? 'selected' : '' }}>User</option>
+                            </select>
+                            @error('role') <div class="text-danger">{{ $message }}</div> @enderror
+                        </div>
+
+                        {{-- Uncomment to allow password change --}}
+                        {{--
+                        <div class="mb-3">
+                            <label for="password">Nouveau mot de passe (laisser vide pour ne pas changer)</label>
+                            <input type="password" name="password" id="password" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation">Confirmer le nouveau mot de passe</label>
+                            <input type="password" name="password_confirmation" id="password_confirmation" class="form-control">
+                        </div>
+                        --}}
+
+                        <button type="submit" class="btn btn-primary">Mettre à jour</button>
+                        <a href="{{ route('user-management') }}" class="btn btn-secondary">Annuler</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endisset
+
+    {{-- User List Table --}}
     <div class="row">
         <div class="col-12">
             <div class="card my-4">
                 <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                    <div class=" shadow-primary border-radius-lg pt-4 pb-3">
-                        <h6 class="text-black mx-3">
-                            <h6 class="text-black text-capitalize ps-3">Gestion des utilisateurs</h6>
-                            <strong><a
-                                    href="https://www.creative-tim.com/product/material-dashboard-pro-laravel-livewire"
-                                    target="_blank" class="text-white"><u>here</u> </a></strong>
-                        </h6>
+                    <div class="shadow-primary border-radius-lg pt-4 pb-3">
+                        <h6 class="text-black text-capitalize ps-3">Gestion des utilisateurs</h6>
                     </div>
                 </div>
-                <div class=" me-3 my-3 text-end">
-                    <a class="btn bg-gradient-dark mb-0" href="javascript:;"><i
-                            class="material-icons text-sm">add</i>&nbsp;&nbsp;Ajouter un nouveau utilisateur</a>
+
+                <div class="me-3 my-3 text-end">
+                    <a href="{{ route('users.create') }}" class="btn bg-gradient-dark mb-0">
+                        <i class="material-icons text-sm">add</i>&nbsp;&nbsp;Ajouter un nouvel utilisateur
+                    </a>
                 </div>
+
                 <div class="card-body px-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        ID
-                                    </th>
-                                    <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        NUMERO CARTE</th>
-                                    <th
-                                        class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                                        NAME</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        ACCES </th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        ROLE</th>
-                                    <th
-                                        class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                                        DATE
-                                    </th>
-                                    <th class="text-secondary opacity-7"></th>
+                                    <th>ID</th>
+                                    <th>Nom</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Rôle</th>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <p class="mb-0 text-sm">1</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{{ asset('assets') }}/img/team-2.jpg"
-                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user1">
-                                            </div>
+                                @forelse ($users as $user)
+                                    <tr>
+                                        <td>{{ $user->id }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td class="text-center">{{ $user->email }}</td>
+                                        <td class="text-center">{{ $user->role }}</td>
+                                        <td class="text-center">{{ $user->created_at->format('d/m/Y') }}</td>
+                                        <td class="text-center">
+                                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success btn-sm" title="Modifier">
+                                                <i class="material-icons">edit</i>
+                                            </a>
 
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">John</h6>
-
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-xs text-secondary mb-0">john@creative-tim.com
-                                        </p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Admin</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">22/03/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a rel="tooltip" class="btn btn-success btn-link" href=""
-                                            data-original-title="" title="">
-                                            <i class="material-icons">edit</i>
-                                            <div class="ripple-container"></div>
-                                        </a>
-
-                                        <button type="button" class="btn btn-danger btn-link" data-original-title=""
-                                            title="">
-                                            <i class="material-icons">close</i>
-                                            <div class="ripple-container"></div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <p class="mb-0 text-sm">2</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{{ asset('assets') }}/img/team-3.jpg"
-                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user2">
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">Alexa</h6>
-
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-xs text-secondary mb-0">
-                                            alexa@creative-tim.com</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Creator</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">16/06/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a rel="tooltip" class="btn btn-success btn-link" href=""
-                                            data-original-title="" title="">
-                                            <i class="material-icons">edit</i>
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-link" data-original-title=""
-                                            title="">
-                                            <i class="material-icons">close</i>
-                                            <div class="ripple-container"></div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <p class="mb-0 text-sm">3</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{{ asset('assets') }}/img/team-4.jpg"
-                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user3">
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">Laurent</h6>
-
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-xs text-secondary mb-0">
-                                            laurent@creative-tim.com</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Member</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">30/06/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a rel="tooltip" class="btn btn-success btn-link" href=""
-                                            data-original-title="" title="">
-                                            <i class="material-icons">edit</i>
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-link" data-original-title=""
-                                            title="">
-                                            <i class="material-icons">close</i>
-                                            <div class="ripple-container"></div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <p class="mb-0 text-sm">4</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{{ asset('assets') }}/img/team-3.jpg"
-                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user4">
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">Michael</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-xs text-secondary mb-0">
-                                            michael@creative-tim.com</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Member</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">16/06/19</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a rel="tooltip" class="btn btn-success btn-link" href=""
-                                            data-original-title="" title="">
-                                            <i class="material-icons">edit</i>
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-link" data-original-title=""
-                                            title="">
-                                            <i class="material-icons">close</i>
-                                            <div class="ripple-container"></div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <p class="mb-0 text-sm">5</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{{ asset('assets') }}/img/team-2.jpg"
-                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user5">
-                                            </div>
-
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">Richard</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-xs text-secondary mb-0">
-                                            richard@creative-tim.com</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Creator</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">16/06/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a rel="tooltip" class="btn btn-success btn-link" href=""
-                                            data-original-title="" title="">
-                                            <i class="material-icons">edit</i>
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-link" data-original-title=""
-                                            title="">
-                                            <i class="material-icons">close</i>
-                                            <div class="ripple-container"></div>
-                                        </button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div class="d-flex flex-column justify-content-center">
-                                                <p class="mb-0 text-sm">6</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex px-2 py-1">
-                                            <div>
-                                                <img src="{{ asset('assets') }}/img/team-4.jpg"
-                                                    class="avatar avatar-sm me-3 border-radius-lg" alt="user6">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex flex-column justify-content-center">
-                                            <h6 class="mb-0 text-sm">Miriam</h6>
-                                        </div>
-                                    </td>
-                                    <td class="align-middle text-center text-sm">
-                                        <p class="text-xs text-secondary mb-0">
-                                            miriam@creative-tim.com</p>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">Creator</span>
-                                    </td>
-                                    <td class="align-middle text-center">
-                                        <span class="text-secondary text-xs font-weight-bold">26/06/18</span>
-                                    </td>
-                                    <td class="align-middle">
-                                        <a rel="tooltip" class="btn btn-success btn-link" href=""
-                                            data-original-title="" title="">
-                                            <i class="material-icons">edit</i>
-                                            <div class="ripple-container"></div>
-                                        </a>
-                                        <button type="button" class="btn btn-danger btn-link" data-original-title=""
-                                            title="">
-                                            <i class="material-icons">close</i>
-                                            <div class="ripple-container"></div>
-                                        </button>
-                                    </td>
-                                </tr>
+                                            <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Êtes-vous sûr ?');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Supprimer">
+                                                    <i class="material-icons">close</i>
+                                                </button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @empty
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4 text-muted">Aucun utilisateur trouvé.</td>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>
+
+</div>
+@endsection
 </div>

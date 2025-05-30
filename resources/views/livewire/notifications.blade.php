@@ -23,10 +23,10 @@
 
 <div class="row">
     {{-- Temperature Card --}}
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+    <div class="col-12 mb-4">
+        <div class="card bg-transparent shadow-none text-dark" style="border-radius: 10px;">
             <div class="card-body p-3 text-center">
-                <p class="h5 mb-3">🌡️ Température</p>
+                
 
                 @if ($latestTemp->temperature > $temperatureThreshold)
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -34,38 +34,30 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
                     </div>
                 @endif
-
             </div>
         </div>
     </div>
 
     {{-- Humidity Card --}}
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+    <div class="col-12 mb-4">
+        <div class="card bg-transparent shadow-none text-dark" style="border-radius: 10px;">
             <div class="card-body p-3 text-center">
-                <p class="h5 mb-3">💧 Humidité</p>
-
 
 
                 @if ((float)$latestHumidity->humidete > $humidityThreshold)
-
-
                     <div class="alert alert-warning alert-dismissible fade show" role="alert">
                         💦 <strong>Humidité élevée !</strong> ({{ $latestHumidity->humidete }}%)
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
                     </div>
                 @endif
-
-
             </div>
         </div>
     </div>
 
     {{-- CO2 Gas Card --}}
-    <div class="col-lg-4 col-md-6 mb-4">
-        <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
+    <div class="col-12 mb-4">
+        <div class="card bg-transparent shadow-none text-dark" style="border-radius: 10px;">
             <div class="card-body p-3 text-center">
-                <p class="h5 mb-3">🫁 Gaz (CO₂)</p>
 
 
                 @if ($latestGas->niveauco2 > $co2Threshold)
@@ -74,8 +66,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
                     </div>
                 @endif
-
-
             </div>
         </div>
     </div>

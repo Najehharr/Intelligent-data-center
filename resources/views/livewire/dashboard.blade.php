@@ -92,7 +92,9 @@
                     <div class="card-body p-3 text-center">
                         <p class="h5 mb-3">🫁 Gaz (CO₂)</p>
                         <div class="d-flex justify-content-around align-items-center my-3">
-                            <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestGas->niveauco2 }} ppm</p>
+                            <p class="fw-bold mb-0" style="font-size: 4rem;">
+                                {{ $latestGas->niveauco2 }} <span style="font-size: 1.2rem;">PPM</span>
+                            </p>
                             <div class="text-start">
                                 <p class="small">{{ \Carbon\Carbon::parse($latestGas->datetimes)->format('H:i') }}</p>
                                 <p class="h6">{{ \Carbon\Carbon::parse($latestGas->datetimes)->format('l') }}</p>
@@ -140,62 +142,65 @@
                     </div>
                 </div>
             </div>
-        <div class="col-md-6">
-        <div class="card custom-chart">
-        <div class="card-body px-0 pb-2">
-        <h6 class="text-center text-sm font-weight-bold pt-3">Accès Acceptés (RFID)</h6>
-        <div class="table-responsive p-0" style="max-height: 350px; overflow-y: auto;">
-            <table class="table align-items-center mb-0">
-                <thead>
-                    <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Numéro de carte</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
-                            Date d'entrée</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Access</th>
-                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                            Traité</th>
-                        <th class="text-secondary opacity-7"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($data->where('access', 'ACCEPTED') as $entry)
-                    <tr>
-                        <td>
-                            <div class="d-flex px-2 py-1">
-                                <div class="d-flex flex-column justify-content-center">
-                                    <h6 class="mb-0 text-sm">{{ $entry->Numcart }}</h6>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <p class="text-xs font-weight-bold mb-0">{{ $entry->date }}</p>
-                        </td>
-                        <td class="align-middle text-center text-sm">
-                            <span class="badge badge-sm bg-gradient-success">
-                                Accepté
-                            </span>
-                        </td>
-                        <td class="align-middle text-center">
-                            <span class="text-secondary text-xs font-weight-bold">
-                                {{ $entry->traite == '1' ? 'Oui' : 'Non' }}
-                            </span>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @if($data->where('access', 'ACCEPTED')->isEmpty())
-                    <tr>
-                        <td colspan="4" class="text-center text-muted py-4">
-                            Aucun accès accepté trouvé.
-                        </td>
-                    </tr>
-                    @endif
-                </tbody>
-            </table>
-        </div>
-    </div>
-</div>
+            <div class="col-md-6">
+                <div class="card custom-chart">
+                    <div class="card-body px-0 pb-2">
+                        <h6 class="text-center text-sm font-weight-bold pt-3">Accès Acceptés (RFID)</h6>
+                        <div class="table-responsive p-0" style="max-height: 350px; overflow-y: auto;">
+                            <table class="table align-items-center mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            ID</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Date d'entrée</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Access</th>
+                                        <th
+                                            class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                                            Traité</th>
+                                        <th class="text-secondary opacity-7"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($data->where('access', 'ACCEPTED') as $entry)
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex px-2 py-1">
+                                                    <div class="d-flex flex-column justify-content-center">
+                                                        <h6 class="mb-0 text-sm">{{ $entry->id }}</h6>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <p class="text-xs font-weight-bold mb-0">{{ $entry->date }}</p>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <span class="badge badge-sm bg-gradient-success">
+                                                    Accepté
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="text-secondary text-xs font-weight-bold">
+                                                    {{ $entry->traite == '1' ? 'Oui' : 'Non' }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    @if ($data->where('access', 'ACCEPTED')->isEmpty())
+                                        <tr>
+                                            <td colspan="4" class="text-center text-muted py-4">
+                                                Aucun accès accepté trouvé.
+                                            </td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
 
 
 

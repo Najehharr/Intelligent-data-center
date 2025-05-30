@@ -92,8 +92,8 @@
 
                     {{-- Gestion d'accès --}}
                     <li class="nav-item">
-                        <a class="nav-link text-white {{ Route::currentRouteName() == 'tables' ? 'active' : '' }}"
-                            href="{{ route('tables') }}">
+                        <a class="nav-link text-white {{ Route::currentRouteName() == 'rfid.search' ? 'active' : '' }}"
+                            href="{{ route('rfid.search') }}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                 <i class="material-icons opacity-10">table_view</i>
                             </div>

@@ -34,33 +34,11 @@
         $latestHumidity = $humidityData->first();
         $latestGas = $gasData->first();
     @endphp
-
+<div class="container-fluid py-4">
 
 
  <!-- Gas Card -->
-            <div class="col-lg-4 col-md-6 mb-4">
-                <div class="card shadow-0 border border-dark border-5 text-dark" style="border-radius: 10px;">
-                    <div class="card-body p-3 text-center">
-                        <p class="h5 mb-3">🫁 Gaz (CO₂)</p>
-                        <div class="d-flex justify-content-around align-items-center my-3">
-                            <p class="fw-bold mb-0" style="font-size: 4rem;">{{ $latestGas->niveauco2 }} ppm</p>
-                            <div class="text-start">
-                                <p class="small">{{ \Carbon\Carbon::parse($latestGas->datetimes)->format('H:i') }}</p>
-                                <p class="h6">{{ \Carbon\Carbon::parse($latestGas->datetimes)->format('l') }}</p>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-around flex-wrap">
-                            @foreach ($gasData as $entry)
-                                <div class="border rounded p-2 m-1 text-center" style="min-width: 60px;">
-                                    <p class="small mb-1">{{ \Carbon\Carbon::parse($entry->datetimes)->format('H:i') }}
-                                    </p>
-                                    <p class="small mb-0"><strong>{{ $entry->niveauco2 }} ppm</strong></p>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="row justify-content-center">
 
 
 
@@ -72,6 +50,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+ </div>
 
 
             <!-- Chart Scripts -->
