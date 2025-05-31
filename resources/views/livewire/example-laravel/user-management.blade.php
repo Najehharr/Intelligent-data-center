@@ -1,8 +1,6 @@
+<x-layouts.app>
 
-<div>
-@extends('layouts.app') {{-- Assuming you have a main layout called layouts.app --}}
 
-@section('content')
 <div class="container-fluid py-4">
 
     {{-- Flash Message --}}
@@ -129,5 +127,6 @@
     </div>
 
 </div>
-@endsection
-</div>
+
+
+</x-layouts.app>

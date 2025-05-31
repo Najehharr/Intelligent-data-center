@@ -34,6 +34,8 @@
         $latestHumidity = $humidityData->first();
         $latestGas = $gasData->first();
     @endphp
+
+<x-layouts.app>
 <div class="container-fluid py-4">
 
 
@@ -52,7 +54,7 @@
             </div>
         </div>
  </div>
-
+</x-layouts.app>
 
             <!-- Chart Scripts -->
     <script>

@@ -1,3 +1,4 @@
+<x-layouts.app>
 <div class="">
     <div class="container-fluid py-4">
         <div class="row">
@@ -73,3 +74,4 @@
         </div>
     </div>
 </div>
+</x-layouts.app>

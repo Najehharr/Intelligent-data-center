@@ -33,9 +33,9 @@
             $latestHumidity = $humidityData->first();
             $latestGas = $gasData->first();
         @endphp
-
+        <x-layouts.app>
         <div class="container-fluid py-4">
-           
+
 
             <!-- Charts -->
             <div class="row justify-content-center">
@@ -58,7 +58,7 @@
             </div>
         </div>
         </div>
-
+        </x-layouts.app>
         <!-- Chart Scripts -->
         <script>
             document.addEventListener("DOMContentLoaded", function() {
