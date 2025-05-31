@@ -88,10 +88,8 @@ Route::get('/rfid-search', [RfidController::class, 'search'])->name('rfid.search
     Route::resource('users', UserController::class);
 
     // Alias for users.index if you prefer 'user-management' for the listing page
-    Route::get('/user-management', [UserController::class, 'index'])->name('user-management');
-
-    Route::get('/user-management', \App\Http\Livewire\ExampleLaravel\UserManagement::class)->name('user-management');
-
+Route::get('/user-management', [UserController::class, 'index'])->name('user-management');
+Route::resource('users', UserController::class)->except(['index']);
     ## Sensor Data & API Routes
 
     Route::get('/chart-data/temperature', [SensorDataController::class, 'temperature']);

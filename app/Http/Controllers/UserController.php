@@ -16,8 +16,9 @@ class UserController extends Controller
     public function index()
 {
     $users = User::all();
-    return view('livewire.example-laravel.user-management', compact('users'));
+return view('livewire.example-laravel.user-management', compact('users'));
 }
+
 
 
     /**
