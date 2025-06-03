@@ -28,7 +28,7 @@ return view('livewire.example-laravel.user-management', compact('users'));
      */
     public function create()
     {
-        return view('create-user'); // Assuming you have a create-user.blade.php
+       return view('livewire.example-laravel.user-management', compact('users'));
     }
 
     /**
@@ -62,12 +62,7 @@ return view('livewire.example-laravel.user-management', compact('users'));
      * @param  \App\Models\User  $user
      * @return \Illuminate\View\View
      */
-    public function edit(User $user) // Use Route Model Binding
-    {
-        // The view name should be 'edit-user' or integrated into 'user-management'
-        // Based on your blade, 'user-management' handles both listing and an edit form.
-        return view('user-management', ['users' => User::all(), 'editUser' => $user]);
-    }
+
 
     /**
      * Update the specified user in storage.
@@ -76,29 +71,20 @@ return view('livewire.example-laravel.user-management', compact('users'));
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, User $user) // Use Route Model Binding
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id, // Exclude current user's email
-            'role' => 'required|string',
-            // 'password' => 'nullable|string|min:8|confirmed', // Add if you allow password change
-        ]);
+   public function update(Request $request, User $user)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'email' => 'required|email|max:255|unique:users,email,' . $user->id,
+    ]);
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role = $request->role;
+    $user->update([
+        'name' => $request->name,
+        'email' => $request->email,
+    ]);
 
-        // If you allow password changes in the edit form:
-        // if ($request->filled('password')) {
-        //     $user->password = Hash::make($request->password);
-        // }
-
-        $user->save();
-
-        // Redirect to the user management list after update
-        return redirect()->route('user-management')->with('message', 'Utilisateur mis à jour avec succès.');
-    }
+    return redirect()->back()->with('message', 'Utilisateur modifié avec succès.');
+}
 
     /**
      * Remove the specified user from storage.

@@ -86,6 +86,7 @@ Route::get('/rfid-search', [RfidController::class, 'search'])->name('rfid.search
     // Use Route::resource for standard CRUD operations.
     // By removing ->except(['create', 'show']), the 'users.create' route is now defined.
     Route::resource('users', UserController::class);
+    Route::put('/users/{user}', [UserController::class, 'update'])->name('users.update');
 
     // Alias for users.index if you prefer 'user-management' for the listing page
 Route::get('/user-management', [UserController::class, 'index'])->name('user-management');

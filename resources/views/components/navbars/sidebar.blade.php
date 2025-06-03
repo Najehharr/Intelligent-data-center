@@ -37,7 +37,7 @@
                 <a class="nav-link text-white {{ Route::currentRouteName() == 'dashboard' ? 'active bg-gradient-primary' : '' }}"
                     href="{{ route('dashboard') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">dashboard</i>
+
                     </div>
                     <span class="nav-link-text ms-1">Dashboard</span>
                 </a>
@@ -95,7 +95,7 @@
                         <a class="nav-link text-white {{ Route::currentRouteName() == 'rfid.search' ? 'active' : '' }}"
                             href="{{ route('rfid.search') }}">
                             <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                <i class="material-icons opacity-10">table_view</i>
+
                             </div>
                             <span class="nav-link-text ms-1">Gestion d'accès</span>
                         </a>
@@ -108,7 +108,7 @@
                 <a class="nav-link text-white {{ Route::currentRouteName() == 'notifications' ? 'active' : '' }}"
                     href="{{ route('notifications') }}">
                     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                        <i class="material-icons opacity-10">notifications</i>
+                       
                     </div>
                     <span class="nav-link-text ms-1">Notifications</span>
                 </a>

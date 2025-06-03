@@ -4,7 +4,7 @@
 
     $temperatureThreshold = 10; // °C
     $humidityThreshold = 90; // %
-    $co2Threshold = 700; // ppm
+    $co2Threshold = 100; // ppm
 
     $temperatureData = Status::orderBy('datetimes', 'desc')
         ->limit(3)
@@ -26,7 +26,7 @@
     <div class="col-12 mb-4">
         <div class="card bg-transparent shadow-none text-dark" style="border-radius: 10px;">
             <div class="card-body p-3 text-center">
-                
+
 
                 @if ($latestTemp->temperature > $temperatureThreshold)
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
